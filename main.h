@@ -14,6 +14,11 @@ typedef struct s_env {
     char *val_name;
     char *val_value;
     struct s_env *next;
+    struct s_env *prev;
 } t_env;
+
+int ft_strcmp(char *s1, char *s2);
+t_env *pars_env(char **env);
+char **get_arr_env(t_env *l_env);
 
 #endif

@@ -56,7 +56,6 @@ char *get_val(char *env_line)
 }
 
 
-
 //get the linked list from char** ENV
 t_env *pars_env(char **env)
 {
@@ -81,6 +80,7 @@ t_env *pars_env(char **env)
         list_env->next = malloc(sizeof(t_env));
         if (!list_env->next)
             return NULL;
+        list_env->next->prev = list_env;
         list_env = list_env->next;
         index++;
     }
@@ -99,6 +99,8 @@ int get_env_var_count(t_env *l_env)
     }
     return l + 1;
 }
+
+
 
 char *get_line_env(t_env *l_env)
 {
@@ -130,7 +132,6 @@ char *get_line_env(t_env *l_env)
         j++;
     }
     line[i] = '\0';
-    printf("%s\n", line);
     return line;
 }
 
@@ -154,6 +155,45 @@ char **get_arr_env(t_env *l_env)
     return env;
 }
 
+int ft_strcmp(char *s1, char *s2)
+{
+    int i;
+
+    i = 0;
+    if (ft_strlen(s1) != ft_strlen(s2) || !s1 || !s2)
+        return (-1);
+    while (s1[i] && s2[i])
+    {
+        if (s1[i] != s2[i])
+            return(-1);
+        i++;
+    }
+    return (0);
+}
+
+void ft_unset(t_env **env, char *var_name)
+{
+    t_env *curr_env;
+    int i;
+   
+    if (!var_name)
+        return ;
+    curr_env = *env;
+    while (curr_env) 
+    {
+        if (ft_strcmp(curr_env->val_name, var_name) == 0)
+        {
+            curr_env->prev->next = curr_env->next;
+            free(curr_env);
+            return ;
+        }
+        curr_env = curr_env->next;
+    }
+}
+
+//builtin export
+void ft_export(t_env **env, char *setup)
+
 
 int main(int argc, char **argv, char **env_main)
 {
@@ -163,9 +203,27 @@ int main(int argc, char **argv, char **env_main)
         error_exit(0);
     // parse the env and get the linked list
     env = pars_env(env_main);
+    // unset env variable builtin
+    //ft_unset(&env, "TERM");
+    
+    //export builtin
+    ft_export(&env, "TERM=world")
+
+
+
     // parse back and get the 2 dimensional array
     environ = get_arr_env(env);
 
-    
+
+
+    // just for tests
+    int i;
+
+    i = 0;
+    while (environ[i])
+    {
+        printf("%s\n", environ[i]);
+        i++;
+    }
 }
    
