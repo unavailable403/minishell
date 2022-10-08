@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smikayel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/14 14:56:21 by smikayel          #+#    #+#             */
-/*   Updated: 2022/03/17 20:58:16 by smikayel         ###   ########.fr       */
+/*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
+/*   Updated: 2022/10/08 16:54:47 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "main.h"
 
-void	ft_putnbr_fd(int n, int fd)
+int	main(void)
 {
-	char	*char_nb;
+	char	*cmd_line;
 
-	if (!fd)
-		return ;
-	char_nb = ft_itoa(n);
-	ft_putstr_fd(char_nb, fd);
-	free(char_nb);
+	while (1)
+	{
+		cmd_line = readline("Say - Hello myalmo > ");
+		add_history(cmd_line);
+		if (first_checker(cmd_line) == 0)
+		{
+			
+		}
+	}
+	return (0);
 }
