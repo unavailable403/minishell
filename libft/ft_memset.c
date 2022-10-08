@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
+/*   By: ergrigor <ergrigor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/08 23:29:22 by ergrigor         ###   ########.fr       */
+/*   Created: 2022/03/18 19:58:35 by ergrigor          #+#    #+#             */
+/*   Updated: 2022/03/18 20:00:17 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "libft.h"
 
-int	main(void)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	char	*cmd_line;
+	size_t	i;
+	char	*str;
 
-	while (1)
+	str = (char *)b;
+	i = 0;
+	while (i < len)
 	{
-		cmd_line = readline("Say - Hello myalmo > ");
-		add_history(cmd_line);
-		if (first_checker(cmd_line) == 0)
-		{
-			printf("pay dzec, dzec\n");
-		}
+		str[i] = c;
+		i++;
 	}
-	return (0);
+	return (str);
 }

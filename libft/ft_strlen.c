@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
+/*   By: ergrigor <ergrigor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/08 23:29:22 by ergrigor         ###   ########.fr       */
+/*   Created: 2022/03/18 20:10:10 by ergrigor          #+#    #+#             */
+/*   Updated: 2022/03/18 20:10:10 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "libft.h"
 
-int	main(void)
+size_t	ft_strlen(const char *str)
 {
-	char	*cmd_line;
+	size_t	len;
 
-	while (1)
-	{
-		cmd_line = readline("Say - Hello myalmo > ");
-		add_history(cmd_line);
-		if (first_checker(cmd_line) == 0)
-		{
-			printf("pay dzec, dzec\n");
-		}
-	}
-	return (0);
+	len = 0;
+	while (str[len])
+		len++;
+	return (len);
 }

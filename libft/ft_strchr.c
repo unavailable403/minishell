@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
+/*   By: ergrigor <ergrigor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/08 23:29:22 by ergrigor         ###   ########.fr       */
+/*   Created: 2022/03/18 20:04:43 by ergrigor          #+#    #+#             */
+/*   Updated: 2022/03/24 23:42:42 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "libft.h"
 
-int	main(void)
+char	*ft_strchr(const char *str, int c)
 {
-	char	*cmd_line;
+	unsigned char	tar;
 
-	while (1)
+	if (!c)
+		return ((char *)str + ft_strlen(str));
+	tar = c;
+	while (*str)
 	{
-		cmd_line = readline("Say - Hello myalmo > ");
-		add_history(cmd_line);
-		if (first_checker(cmd_line) == 0)
-		{
-			printf("pay dzec, dzec\n");
-		}
+		if (*str == tar)
+			return ((char *)str);
+		else if (!*str++)
+			return (0);
 	}
 	return (0);
 }

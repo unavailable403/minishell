@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
+/*   By: ergrigor <ergrigor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/08 23:29:22 by ergrigor         ###   ########.fr       */
+/*   Created: 2022/03/18 20:08:08 by ergrigor          #+#    #+#             */
+/*   Updated: 2022/03/18 20:08:09 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "libft.h"
 
-int	main(void)
+int	ft_memcmp(const void *s0, const void *s, size_t n)
 {
-	char	*cmd_line;
+	size_t			i;
+	unsigned char	*s1;
+	unsigned char	*s2;
 
-	while (1)
+	s1 = (unsigned char *)s0;
+	s2 = (unsigned char *)s;
+	i = 0;
+	while (n--)
 	{
-		cmd_line = readline("Say - Hello myalmo > ");
-		add_history(cmd_line);
-		if (first_checker(cmd_line) == 0)
-		{
-			printf("pay dzec, dzec\n");
-		}
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
+		i++;
 	}
 	return (0);
 }

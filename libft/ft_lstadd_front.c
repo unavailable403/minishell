@@ -1,29 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
+/*   By: ergrigor <ergrigor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/08 23:29:22 by ergrigor         ###   ########.fr       */
+/*   Created: 2022/03/18 23:02:57 by ergrigor          #+#    #+#             */
+/*   Updated: 2022/03/18 23:06:37 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "libft.h"
 
-int	main(void)
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	char	*cmd_line;
-
-	while (1)
-	{
-		cmd_line = readline("Say - Hello myalmo > ");
-		add_history(cmd_line);
-		if (first_checker(cmd_line) == 0)
-		{
-			printf("pay dzec, dzec\n");
-		}
-	}
-	return (0);
+	new->next = *lst;
+	*lst = new;
 }

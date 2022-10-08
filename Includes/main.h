@@ -6,20 +6,22 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:33:14 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/08 17:08:27 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/08 23:13:29 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAIN_H
 # define MAIN_H
 
+//error
+# include "error.h"
 // libs
 # include <stdio.h>
 # include <errno.h>
 # include <stdlib.h>
 # include <limits.h>
 # include <unistd.h>
-//# include "libft/libft.h"
+# include "../libft/libft.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -47,8 +49,8 @@ typedef struct s_cmd
 	t_element	*element;
 	int			exec_mode;
 	int			status;
-	t_cmd		*next;
-	t_cmd		*prev;
+	struct s_cmd		*next;
+	struct s_cmd		*prev;
 }				t_cmd;
 
 typedef struct s_env
@@ -57,5 +59,7 @@ typedef struct s_env
 	char			*val_value;
 	struct s_env	*next;
 }					t_env;
+
+int	first_checker(char *cmd_line);
 
 #endif

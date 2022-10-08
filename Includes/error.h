@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/08 23:29:22 by ergrigor         ###   ########.fr       */
+/*   Created: 2022/10/08 21:40:08 by ergrigor          #+#    #+#             */
+/*   Updated: 2022/10/08 23:29:43 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#ifndef ERROR_H
+# define ERROR_H
 
-int	main(void)
-{
-	char	*cmd_line;
+# define QUOTE_ERR "minishell: unexpected EOF while looking for matching \"'\"\n"
+# define DB_QUOTE_ERR "minishell: unexpected EOF while looking for matching \"\"\"\n"
+# define L_SCOPE_ERR "minishell: unexpected EOF while looking for matching \"(\"\n"
+# define R_SCOPE_ERR "minishell: unexpected EOF while looking for matching \")\"\n"
 
-	while (1)
-	{
-		cmd_line = readline("Say - Hello myalmo > ");
-		add_history(cmd_line);
-		if (first_checker(cmd_line) == 0)
-		{
-			printf("pay dzec, dzec\n");
-		}
-	}
-	return (0);
-}
+#endif

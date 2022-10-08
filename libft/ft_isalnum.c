@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
+/*   By: ergrigor <ergrigor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/08 23:29:22 by ergrigor         ###   ########.fr       */
+/*   Created: 2022/03/11 17:03:25 by ergrigor          #+#    #+#             */
+/*   Updated: 2022/03/18 21:59:44 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
-
-int	main(void)
+int	ft_isalnum(int tmp)
 {
-	char	*cmd_line;
+	int	is_alnum;
 
-	while (1)
+	is_alnum = 0;
+	if ((tmp >= 97 && tmp <= 122) || (tmp >= 65 && tmp <= 90))
 	{
-		cmd_line = readline("Say - Hello myalmo > ");
-		add_history(cmd_line);
-		if (first_checker(cmd_line) == 0)
+		is_alnum = 1;
+	}
+	else
+	{
+		if (tmp >= 48 && tmp <= 57)
 		{
-			printf("pay dzec, dzec\n");
+			is_alnum = 1;
 		}
 	}
-	return (0);
+	return (is_alnum);
 }
