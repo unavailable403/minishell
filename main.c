@@ -192,7 +192,28 @@ void ft_unset(t_env **env, char *var_name)
 }
 
 //builtin export
-void ft_export(t_env **env, char *setup)
+// void print_in_export(char *var, char *val)
+// {
+//     if (option == 0)
+//         printf("declare -x %s=%s\n", var, val);
+//     else
+//         printf("%s=%s\n", var, val);
+// }
+
+// void ft_export(t_env **env, char *setup)
+// {
+//     t_env *curr_env;
+//     t_env *cycle;
+
+//     curr_env = *env;
+    
+//     cycle = curr_env;
+//     while (cycle)
+//     {
+//         print_one_line(cycle->val_name, cycle->val_value, 0);
+//         cycle = cycle->next;
+//     }
+// }
 
 
 int main(int argc, char **argv, char **env_main)
@@ -202,28 +223,28 @@ int main(int argc, char **argv, char **env_main)
     if (argc != 1)
         error_exit(0);
     // parse the env and get the linked list
-    env = pars_env(env_main);
-    // unset env variable builtin
-    //ft_unset(&env, "TERM");
+    env = pars_env(env_main); //  # done
+    // unset env variable builtin 
+    //ft_unset(&env, "TERM"); # done
     
-    //export builtin
-    ft_export(&env, "TERM=world")
+    //export builtin if not 2-rd argument need to just print it writen but need to know for arguments
+    // ft_export(&env, "TERM=world"); # need to sort in priniting, for now pass, need to undersund how to sort linked arr but need it only in export
 
 
 
     // parse back and get the 2 dimensional array
-    environ = get_arr_env(env);
+    // environ = get_arr_env(env);  # done
 
 
 
     // just for tests
-    int i;
+    // int i;
 
-    i = 0;
-    while (environ[i])
-    {
-        printf("%s\n", environ[i]);
-        i++;
-    }
+    // i = 0;
+    // while (environ[i])
+    // {
+    //     printf("%s\n", environ[i]);
+    //     i++;
+    // }
 }
    
