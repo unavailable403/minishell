@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 14:35:44 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/09 22:18:50 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/09 22:25:43 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,9 @@ t_token	*tokenization(char *cmd_line)
 	len = ft_strlen(cmd_line);
 	arr = malloc (len * sizeof(int));
 	tokenizer(cmd_line, arr, len);
-	// while (i < len)
-	// 	printf(" [%d] ", arr[i++]);
-	// printf("\n");
+	while (i < len)
+		printf(" [%d] ", arr[i++]);
+	printf("\n");
 	//exit(1);
 	// tok_line = malloc((sizeof(tok_line) * i) + 1);
 	// if (!tok_line)
