@@ -3,24 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smikayel <smikayel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ergrigor <ergrigor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/11 12:19:11 by smikayel          #+#    #+#             */
-/*   Updated: 2022/03/21 17:18:11 by smikayel         ###   ########.fr       */
+/*   Created: 2022/03/18 20:12:57 by ergrigor          #+#    #+#             */
+/*   Updated: 2022/03/20 17:32:06 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef LIBFT_H
 # define LIBFT_H
 
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
-}	t_list;
+}			t_list;
 
 void				*ft_memset(void *dest, int c, size_t n);
 void				ft_bzero(void *b, size_t n);

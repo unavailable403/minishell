@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: smikayel <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/03/16 11:32:33 by smikayel          #+#    #+#              #
-#    Updated: 2022/03/25 16:25:53 by smikayel         ###   ########.fr        #
+#    Created: 2022/03/18 20:13:06 by ergrigor          #+#    #+#              #
+#    Updated: 2022/10/08 23:08:28 by ergrigor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,7 @@ AR = ar rcs
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-all: $(NAME)
-
+all:	$(NAME)
 $(NAME): $(OBJS)
 	$(AR) $(NAME) $(OBJS)
 

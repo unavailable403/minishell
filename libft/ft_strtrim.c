@@ -3,75 +3,76 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smikayel <smikayel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ergrigor <ergrigor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/12 10:55:03 by smikayel          #+#    #+#             */
-/*   Updated: 2022/03/18 18:43:27 by smikayel         ###   ########.fr       */
+/*   Created: 2022/03/18 20:12:04 by ergrigor          #+#    #+#             */
+/*   Updated: 2022/03/22 18:12:01 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	start_trim(char const *s1, char const *set)
+static int	first_set_count(char const *str, char const *set)
 {
-	int	i;
+	int	index;
 	int	count;
 
-	i = 0;
+	index = 0;
 	count = 0;
-	while (set[i])
+	while (set[index])
 	{
-		if (set[i] == *s1)
+		if (set[index] == *str)
 		{
-			i = 0;
+			index = 0;
 			count++;
-			s1++;
+			str++;
 		}
 		else
-			i++;
+			index++;
 	}
 	return (count);
 }
 
-static int	end_trim(char const *s1, char const *set)
+static int	last_set_count(char const *str, char const *set)
 {
-	int	i;
+	int	index;
 	int	count;
 	int	len;
 
-	i = 0;
+	index = 0;
 	count = 0;
-	len = ft_strlen(s1) -1;
-	while (set[i])
+	len = ft_strlen(str) - 1;
+	while (set[index])
 	{
-		if (set[i] == s1[len])
+		if (set[index] == str[len])
 		{
-			i = 0;
+			index = 0;
 			count++;
 			len--;
 		}
 		else
-		i++;
+			index++;
 	}
 	return (count);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	size_t	len;
+	size_t	lenght;
 	size_t	start;
-	size_t	strlen;
+	size_t	str_len;
 	char	*str;
 
-	if (!*set || (start_trim(s1, set) == 0 && end_trim(s1, set) == 0))
+	if (!*set || (first_set_count(s1, set) == 0
+			&& last_set_count(s1, set) == 0))
 	{
 		str = ft_strdup(s1);
 		return (str);
 	}
-	start = start_trim(s1, set);
-	len = ft_strlen(s1) - (start + end_trim(s1, set));
-	str = ft_substr(s1, start, len);
-	strlen = ft_strlen(str);
-	str[strlen] = '\0';
+	start = first_set_count(s1, set);
+	lenght = ft_strlen(s1) - (start + last_set_count(s1, set));
+	str = ft_substr(s1, start, lenght);
+	str_len = ft_strlen(str);
+	str[str_len] = '\0';
 	return (str);
 }

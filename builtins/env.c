@@ -1,4 +1,5 @@
-#include "../main.h"
+
+#include "../Includes/main.h"
 
 int main(int argc, char *argv[], char * envp[])
 {

@@ -3,86 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smikayel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ergrigor <ergrigor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/13 14:18:22 by smikayel          #+#    #+#             */
-/*   Updated: 2022/03/17 17:38:04 by smikayel         ###   ########.fr       */
+/*   Created: 2022/03/18 20:08:23 by ergrigor          #+#    #+#             */
+/*   Updated: 2022/03/25 20:09:44 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	ft_rev_int_tab(char *tab, int size)
+static size_t	get_digits(int n)
 {
-	int	i;
-	int	k;
+	size_t	i;
 
-	i = 0;
-	while (i < (size) / 2)
+	i = 1;
+	n /= 10;
+	while (n)
 	{
-		k = *(tab + i);
-		*(tab + i) = *(tab + size - 1 - i);
-		*(tab + size - 1 - i) = k;
+		n /= 10;
 		i++;
 	}
-}
-
-static int	len_nbr(int nb)
-{
-	int	len;
-
-	if (nb < 0)
-		len = 1;
-	else
-		len = 0;
-	while (nb != 0)
-	{
-		len ++;
-		nb /= 10;
-	}
-	return (len);
-}
-
-static char	*loops(int nb)
-{
-	char	*arr;
-	int		tmp;
-	int		mod;
-
-	mod = 1;
-	arr = malloc(len_nbr(nb));
-	tmp = 0;
-	if (nb < 0)
-	{
-		nb *= -1;
-		mod = -1;
-	}
-	while (nb != 0)
-	{
-		arr[tmp] = nb % 10 + '0';
-		nb /= 10;
-		tmp ++;
-	}
-	if (mod < 0)
-		arr[tmp++] = '-';
-	arr[tmp] = '\0';
-	ft_rev_int_tab(arr, ft_strlen(arr));
-	return (arr);
+	return (i);
 }
 
 char	*ft_itoa(int n)
 {
-	char	*str_nb;
+	char		*str_num;
+	size_t		digits;
+	long int	num;
 
-	if (n == 0)
-		return (ft_strdup("0"));
-	else if (n == -2147483648)
+	num = n;
+	digits = get_digits(n);
+	if (n < 0)
 	{
-		return (ft_strdup("-2147483648"));
+		num *= -1;
+		digits++;
 	}
-	else
+	str_num = (char *)malloc(sizeof(char) * (digits + 1));
+	if (!str_num)
+		return (NULL);
+	*(str_num + digits) = 0;
+	while (digits--)
 	{
-		str_nb = loops(n);
+		*(str_num + digits) = num % 10 + '0';
+		num = num / 10;
 	}
-	return (str_nb);
+	if (n < 0)
+		*(str_num + 0) = '-';
+	return (str_num);
 }

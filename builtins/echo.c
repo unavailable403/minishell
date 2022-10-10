@@ -1,5 +1,4 @@
-#include "../main.h"
-#include "../libft/libft.h"
+#include "../Includes/main.h"
 
 int mini_parser(char *echo_flag, int *flag)
 {

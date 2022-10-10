@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smikayel <smikayel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ergrigor <ergrigor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/09 13:55:02 by smikayel          #+#    #+#             */
-/*   Updated: 2022/03/10 19:23:19 by smikayel         ###   ########.fr       */
+/*   Created: 2022/03/11 23:41:50 by ergrigor          #+#    #+#             */
+/*   Updated: 2022/03/18 22:04:30 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_isprint(int c)
 {
 	if (c >= 32 && c <= 126)
-	{
 		return (1);
-	}
 	return (0);
 }

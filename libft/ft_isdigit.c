@@ -3,22 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smikayel <smikayel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ergrigor <ergrigor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/09 12:32:00 by smikayel          #+#    #+#             */
-/*   Updated: 2022/03/10 19:19:44 by smikayel         ###   ########.fr       */
+/*   Created: 2022/03/11 16:57:42 by ergrigor          #+#    #+#             */
+/*   Updated: 2022/03/18 19:56:13 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isdigit(int tmp)
+int	ft_isdigit(int x)
 {
-	int	is_numeric;
-
-	is_numeric = 1;
-	if (tmp > 57 || tmp < 48)
-	{
-		is_numeric = 0;
-		return (is_numeric);
-	}
-	return (is_numeric);
+	if (x >= '0' && x <= '9')
+		return (1);
+	return (0);
 }
