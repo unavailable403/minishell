@@ -2,7 +2,7 @@
 *.o
 
 # Libft
-./libft/libft.a
+libft/libft.a
 
 # minishell executable file
-./minishell
+minishell
