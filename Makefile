@@ -1,5 +1,5 @@
 NAME = minishell
-INC = ./includes/
+INC = ./Includes/
 LIBFT = ./libft/
 
 LIB_LIBFT = $(LIBFT)/libft.a

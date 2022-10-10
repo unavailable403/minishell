@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 19:44:48 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/09 21:10:34 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/10 20:23:28 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 # define OR_IF 						10 // ||
 # define DOT_COMMA 					11 // ;
 # define DB_DOT_COMMA 				12 // ;;
-# define SPACE						13 // ;;
-# define WORD						14 // ;;
+# define SPACE_TK					13 // ' '
+# define WORD						14 // {a..Z}
+# define ASTERIX					15 // *
 
 #endif
