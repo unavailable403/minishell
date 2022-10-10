@@ -1,0 +1,17 @@
+1.change unset command for now its just in main.c but need to be in /builtins/unset.c and nneed to work with execve
+2. need to change all builtins in builtins/...<cmd _ name>
+3.
+
+
+# quotes
+Need to check each error code for each command
+
+# status
+==>>>builtins
+
+        ◦ echo with option -n                                                 | +
+        ◦ cd with only a relative or absolute path ◦ pwd with no options      | -
+        ◦ export with no options                                              | -+
+        ◦ unset with no options                                               | +
+        ◦ env with no options or arguments                                    | +
+        ◦ exit with no options                                                | -

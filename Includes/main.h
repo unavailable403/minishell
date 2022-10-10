@@ -69,7 +69,11 @@ typedef struct s_env
 	char			*val_name;
 	char			*val_value;
 	struct s_env	*next;
+	struct s_env *prev;
 }					t_env;
+
+
+
 
 int		first_checker(char *cmd_line);
 t_token	*tokenization(char *cmd_line);
