@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 14:35:44 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/10 21:54:45 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/10 22:06:07 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ void	quot_editor(int *arr, int len)
 	i = 0;
 	while (i < len && arr[i] != DOUBLE_QUOTES && arr[i] != SINGLE_QUOTES)
 		i++;
+	if (i == len)
+		return ;
 	if (arr[i] == SINGLE_QUOTES)
 		while (arr[++i] != SINGLE_QUOTES)
 			arr[i] = WORD;
@@ -135,6 +137,7 @@ t_token	*tokenization(char *cmd_line)
 	i = 0;
 	len = ft_strlen(cmd_line);
 	arr = malloc (len * sizeof(int));
+	// while(1);
 	tokenizer(cmd_line, arr, len);
 	quot_editor(arr, len);
 	while (i < len)
