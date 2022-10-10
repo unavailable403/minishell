@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 14:35:44 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/10 22:06:07 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/10 23:15:32 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,25 +105,27 @@ void	quot_editor(int *arr, int len)
 	int	i;
 
 	i = 0;
-	while (i < len && arr[i] != DOUBLE_QUOTES && arr[i] != SINGLE_QUOTES)
-		i++;
-	if (i == len)
-		return ;
-	if (arr[i] == SINGLE_QUOTES)
-		while (arr[++i] != SINGLE_QUOTES)
-			arr[i] = WORD;
-	else if (arr[i] == DOUBLE_QUOTES)
+	while (i < len)
 	{
-		while (arr[++i] != DOUBLE_QUOTES)
+		if (i == len)
+			return ;
+		if (arr[i] == SINGLE_QUOTES)
+			while (arr[++i] != SINGLE_QUOTES)
+				arr[i] = WORD;
+		else if (arr[i] == DOUBLE_QUOTES)
 		{
-			if (arr[i] == VARIABLE_TK)
+			while (arr[++i] != DOUBLE_QUOTES)
 			{
-				while (arr[i] != SPACE_TK && arr[i] != DOUBLE_QUOTES
-					&& arr[i] != SINGLE_QUOTES)
-					arr[i++] = VARIABLE_TK;
+				if (arr[i] == VARIABLE_TK)
+				{
+					while (arr[i] != SPACE_TK && arr[i] != DOUBLE_QUOTES
+						&& arr[i] != SINGLE_QUOTES)
+						arr[i++] = VARIABLE_TK;
+				}
+				arr[i] = WORD;
 			}
-			arr[i] = WORD;
 		}
+		i++;
 	}
 }
 
