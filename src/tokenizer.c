@@ -6,34 +6,17 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 14:35:44 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/10 20:43:30 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/10 23:15:32 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void	ft_tokadd_back(t_token **tok, t_token *new)
-{
-	t_token	*iter;
-
-	if (tok == NULL || new == NULL)
-		return ;
-	if (*tok == NULL)
-	{
-		*tok = new;
-		return ;
-	}
-	iter = *tok;
-	while (iter -> next != NULL)
-		iter = iter -> next;
-	iter -> next = new;
-}
-
 t_token	*ft_toknew(char *content)
 {
 	t_token	*new;
 
-	new = malloc(sizeof(t_list));
+	new = malloc(sizeof(t_token));
 	if (!new)
 		return (NULL);
 	new->word = content;
@@ -52,6 +35,8 @@ void	fnorm_tokenizer2(char *cmd_line, int *arr, int len, int *i)
 			arr[*i] = SINGLE_QUOTES;
 		else if (cmd_line[*i] == '*')
 			arr[*i] = ASTERIX;
+		else if (cmd_line[*i] == '$')
+			arr[*i] = VARIABLE_TK;
 		else if (cmd_line[*i] == '|' && cmd_line[(*i) + 1] == '|')
 		{
 			arr[(*i)++] = OR_IF;
@@ -115,6 +100,35 @@ void	tokenizer(char *cmd_line, int *arr, int len)
 	}
 }
 
+void	quot_editor(int *arr, int len)
+{
+	int	i;
+
+	i = 0;
+	while (i < len)
+	{
+		if (i == len)
+			return ;
+		if (arr[i] == SINGLE_QUOTES)
+			while (arr[++i] != SINGLE_QUOTES)
+				arr[i] = WORD;
+		else if (arr[i] == DOUBLE_QUOTES)
+		{
+			while (arr[++i] != DOUBLE_QUOTES)
+			{
+				if (arr[i] == VARIABLE_TK)
+				{
+					while (arr[i] != SPACE_TK && arr[i] != DOUBLE_QUOTES
+						&& arr[i] != SINGLE_QUOTES)
+						arr[i++] = VARIABLE_TK;
+				}
+				arr[i] = WORD;
+			}
+		}
+		i++;
+	}
+}
+
 t_token	*tokenization(char *cmd_line)
 {
 	t_token	*tok_line;
@@ -125,7 +139,9 @@ t_token	*tokenization(char *cmd_line)
 	i = 0;
 	len = ft_strlen(cmd_line);
 	arr = malloc (len * sizeof(int));
+	// while(1);
 	tokenizer(cmd_line, arr, len);
+	quot_editor(arr, len);
 	while (i < len)
 		printf(" [%d] ", arr[i++]);
 	printf("\n");

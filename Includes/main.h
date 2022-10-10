@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:33:14 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/10 20:40:37 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/10 21:13:27 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,23 @@ typedef struct s_env
 	struct s_env	*next;
 	struct s_env *prev;
 }					t_env;
-
-
-
-
+//tokenization
 int		first_checker(char *cmd_line);
 t_token	*tokenization(char *cmd_line);
-void	ft_tokadd_back(t_token **tok, t_token *new);
+void	quot_editor(int *arr, int len);
+//void	ft_tokadd_back(t_token **tok, t_token *new);
 //utils
 char	*ft_str_start_trim(char const *s1, char const *set);
+
+
+// env helpers
+int get_env_var_count(t_env *l_env);
+char *get_line_env(t_env *l_env);
+int ft_strcmp(char *s1, char *s2);
+char *get_val(char *env_line);
+char *get_val_name(char *env_line);
+// env 
+char **get_arr_env(t_env *l_env);
+t_env *pars_env(char **env);
 
 #endif

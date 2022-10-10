@@ -6,19 +6,22 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/10 20:41:52 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/10 22:00:46 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/main.h"
 
-int	main(void)
+int	main(int argc, char **argv, char **main_env)
 {
 	char	*cmd_line;
 	t_token	*tok_line;
+	t_env *env;
 
+	env = pars_env(main_env);
 	while (1)
 	{
+		// cmd_line = readline("Say - Hello myalmo > ");
 		cmd_line = ft_str_start_trim(readline("Say - Hello myalmo > "), "\t ");
 		if (cmd_line != NULL && cmd_line[0] != '\0')
 			add_history(cmd_line);

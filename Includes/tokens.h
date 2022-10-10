@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 19:44:48 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/10 20:23:28 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/10 21:04:05 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@
 # define SPACE_TK					13 // ' '
 # define WORD						14 // {a..Z}
 # define ASTERIX					15 // *
+# define VARIABLE_TK				16 // $...
 
 #endif
