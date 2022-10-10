@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 19:28:02 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/08 23:43:43 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/09 22:20:18 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,21 @@ int	fnorm_first_checker(int db_quot, int quot, int l_scope, int r_scope)
 		return (write(2, DB_QUOTE_ERR, ft_strlen(DB_QUOTE_ERR)), 1);
 	return (0);
 }
+
+void	skip_char(int *i, char *cmd_line, int *arr, char tok)
+{
+	(*arr)++;
+	(*i)++;
+	while (cmd_line[*i] && cmd_line[*i] != tok)
+		(*i)++;
+	if (cmd_line[*i] == tok)
+		(*arr)++;
+}
+
 // 0	"db_quot";
 // 1	'quot';
 // 2	( l_scope;
 // 3	) r_scope;
-
 int	first_checker(char *cmd_line)
 {
 	int	i;
@@ -49,9 +59,9 @@ int	first_checker(char *cmd_line)
 	while (cmd_line[++i])
 	{
 		if (cmd_line[i] == '"')
-			arr[0] += 1;
+			skip_char(&i, cmd_line, &arr[0], '"');
 		else if (cmd_line[i] == '\'')
-			arr[1] += 1;
+			skip_char(&i, cmd_line, &arr[0], '\'');
 		else if (cmd_line[i] == '(')
 			arr[2] += 1;
 		else if (cmd_line[i] == ')')

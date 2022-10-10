@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 19:44:48 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/08 20:56:58 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/09 21:10:34 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,16 @@
 # define SINGLE_QUOTES				1 // ''
 # define L_SCOPE 					2 // (
 # define R_SCOPE 					3 // )
-# define RED_INPUT 					3 // <
-# define RED_OUTPUT 				3 // >
-# define RED_OUTPUT_APP 			3 // >>
-# define HERE_DOC					3 // <<
-# define PIPE 						3 // |
-# define AND_OR 					3 // &&
-# define OR_IF 						3 // ||
-# define R_SCOPE 					3 //
-# define R_SCOPE 					3 //
+# define RED_INPUT 					4 // <
+# define RED_OUTPUT 				5 // >
+# define RED_OUTPUT_APP 			6 // >>
+# define HERE_DOC					7 // <<
+# define PIPE 						8 // |
+# define AND_OR 					9 // &&
+# define OR_IF 						10 // ||
+# define DOT_COMMA 					11 // ;
+# define DB_DOT_COMMA 				12 // ;;
+# define SPACE						13 // ;;
+# define WORD						14 // ;;
 
 #endif
