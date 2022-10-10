@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 14:35:44 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/09 22:25:43 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/10 20:43:30 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	fnorm_tokenizer2(char *cmd_line, int *arr, int len, int *i)
 			arr[*i] = DOUBLE_QUOTES;
 		else if (cmd_line[*i] == '\'')
 			arr[*i] = SINGLE_QUOTES;
+		else if (cmd_line[*i] == '*')
+			arr[*i] = ASTERIX;
 		else if (cmd_line[*i] == '|' && cmd_line[(*i) + 1] == '|')
 		{
 			arr[(*i)++] = OR_IF;
@@ -94,7 +96,7 @@ void	tokenizer(char *cmd_line, int *arr, int len)
 	while (cmd_line[i] && i < len)
 	{
 		if (cmd_line[i] == ' ')
-			arr[i] = SPACE;
+			arr[i] = SPACE_TK;
 		else if (cmd_line [i] == '|' && cmd_line[i + 1] != '|')
 			arr[i] = PIPE;
 		else if (cmd_line [i] == ';')

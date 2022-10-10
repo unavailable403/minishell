@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/09 19:35:44 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/10 20:41:52 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	main(void)
 
 	while (1)
 	{
-		cmd_line = readline("Say - Hello myalmo > ");
-		if (cmd_line[0] != '\0')
+		cmd_line = ft_str_start_trim(readline("Say - Hello myalmo > "), "\t ");
+		if (cmd_line != NULL && cmd_line[0] != '\0')
 			add_history(cmd_line);
 		if (first_checker(cmd_line) == 0 && cmd_line[0] != '\0')
 		{
