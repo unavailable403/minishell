@@ -69,6 +69,7 @@ typedef struct s_env
 	char			*val_name;
 	char			*val_value;
 	struct s_env	*next;
+	struct s_env	*prev;
 }					t_env;
 //tokenization
 int		first_checker(char *cmd_line);
@@ -77,5 +78,16 @@ void	quot_editor(int *arr, int len);
 //void	ft_tokadd_back(t_token **tok, t_token *new);
 //utils
 char	*ft_str_start_trim(char const *s1, char const *set);
+
+
+// env helpers
+int get_env_var_count(t_env *l_env);
+char *get_line_env(t_env *l_env);
+int ft_strcmp(char *s1, char *s2);
+char *get_val(char *env_line);
+char *get_val_name(char *env_line);
+// env 
+char **get_arr_env(t_env *l_env);
+t_env *pars_env(char **env);
 
 #endif
