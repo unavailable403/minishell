@@ -35,5 +35,3 @@ void ft_unset(t_env **env, char *var_name)
         curr_env = curr_env->next;
     }
 }
-
-// int main()
