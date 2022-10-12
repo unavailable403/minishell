@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 14:35:44 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/10 23:15:32 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/11 21:45:23 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,38 @@ void	tokenizer(char *cmd_line, int *arr, int len)
 	}
 }
 
+void	make_single_quote(int *arr, int len, int *i)
+{
+	(*i)++;
+	while (arr[*i] != SINGLE_QUOTES)
+	{
+		arr[*i] = WORD;
+		(*i)++;
+	}
+}
+
+void	make_double_quote(int *arr, int len, int *i)
+{
+	(*i)++;
+	while (arr[*i] != DOUBLE_QUOTES && *i < len)
+	{
+		if (arr[*i] == VARIABLE_TK)
+		{
+			while (arr[*i] != SPACE_TK && arr[*i] != DOUBLE_QUOTES
+				&& arr[*i] != SINGLE_QUOTES)
+			{
+				arr[*i] = VARIABLE_TK;
+				(*i)++;
+			}
+		}
+		if (arr[*i] == DOUBLE_QUOTES)
+			break ;
+		arr[*i] = WORD;
+		(*i)++;
+	}
+	(*i)++;
+}
+
 void	quot_editor(int *arr, int len)
 {
 	int	i;
@@ -110,22 +142,11 @@ void	quot_editor(int *arr, int len)
 		if (i == len)
 			return ;
 		if (arr[i] == SINGLE_QUOTES)
-			while (arr[++i] != SINGLE_QUOTES)
-				arr[i] = WORD;
+			make_single_quote(arr, len, &i);
 		else if (arr[i] == DOUBLE_QUOTES)
-		{
-			while (arr[++i] != DOUBLE_QUOTES)
-			{
-				if (arr[i] == VARIABLE_TK)
-				{
-					while (arr[i] != SPACE_TK && arr[i] != DOUBLE_QUOTES
-						&& arr[i] != SINGLE_QUOTES)
-						arr[i++] = VARIABLE_TK;
-				}
-				arr[i] = WORD;
-			}
-		}
-		i++;
+			make_double_quote(arr, len, &i);
+		else
+			i++;
 	}
 }
 
@@ -139,7 +160,6 @@ t_token	*tokenization(char *cmd_line)
 	i = 0;
 	len = ft_strlen(cmd_line);
 	arr = malloc (len * sizeof(int));
-	// while(1);
 	tokenizer(cmd_line, arr, len);
 	quot_editor(arr, len);
 	while (i < len)

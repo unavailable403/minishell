@@ -6,11 +6,11 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 19:28:02 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/09 22:20:18 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/11 17:08:33 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/main.h"
+#include "main.h"
 
 // 0 -> ""
 // 1 -> ''

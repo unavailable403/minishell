@@ -1,5 +1,53 @@
-#include "main.h"
+#include "../Includes/main.h"
 
+int get_env_var_count(t_env *l_env)
+{
+    int l;
+
+    l = 0;
+    while (l_env->next)
+    {
+        l++;
+        l_env = l_env->next;
+    }
+    return l + 1;
+}
+
+
+char *get_line_env(t_env *l_env)
+{
+    char *line;
+    int i;
+    int j;
+    int name;
+    int value;
+
+    name = ft_strlen(l_env->val_name);
+    value = ft_strlen(l_env->val_value);
+    i = 0;
+    line = malloc(name + value + 2);
+    if (!line)
+        return NULL;
+    while (i < name)
+    {
+        line[i] = l_env->val_name[i];
+        i++;
+    }
+    line[i] = '=';
+    i++;
+    j = 0;
+    while (j < value)
+    {
+        
+        line[i] = l_env->val_value[j];
+        i++;
+        j++;
+    }
+    line[i] = '\0';
+    return line;
+}
+
+// get the char ** from linked list 
 char **get_arr_env(t_env *l_env)
 {
     char **env;
@@ -17,34 +65,4 @@ char **get_arr_env(t_env *l_env)
     }
     env[i] = NULL;
     return env;
-}
-
-t_env *pars_env(char **env)
-{
-    t_env *list_env;
-    t_env *env_start;
-    int index;
-
-    list_env = malloc(sizeof(t_env));
-    env_start = list_env;
-    if (!list_env)
-        return NULL;
-    index = 0;
-    while (env[index] != NULL)
-    {
-        list_env->val_name = get_val_name(env[index]);
-        list_env->val_value = get_val(env[index]);
-        if (env[index + 1] == NULL)
-        {
-            list_env->next = NULL;
-            break ;
-        }
-        list_env->next = malloc(sizeof(t_env));
-        if (!list_env->next)
-            return NULL;
-        list_env->next->prev = list_env;
-        list_env = list_env->next;
-        index++;
-    }
-    return env_start;
 }
