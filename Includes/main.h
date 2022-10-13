@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:33:14 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/11 21:23:44 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/13 22:07:28 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,9 @@ typedef struct s_env
 }					t_env;
 //tokenization
 int		first_checker(char *cmd_line);
-t_token	*tokenization(char *cmd_line);
+int		*tokenization(char *cmd_line);
+void	fnorm_tokenizer(char *cmd_line, int *arr, int len, int *i);
+void	fnorm_tokenizer2(char *cmd_line, int *arr, int len, int *i);
 void	quot_editor(int *arr, int len);
 //void	ft_tokadd_back(t_token **tok, t_token *new);
 //utils
