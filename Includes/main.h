@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:33:14 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/13 22:07:28 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/18 18:44:09 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,19 +72,25 @@ typedef struct s_env
 	struct s_env	*prev;
 }					t_env;
 //tokenization
-int		first_checker(char *cmd_line);
-int		*tokenization(char *cmd_line);
-void	fnorm_tokenizer(char *cmd_line, int *arr, int len, int *i);
-void	fnorm_tokenizer2(char *cmd_line, int *arr, int len, int *i);
-void	quot_editor(int *arr, int len);
+int			first_checker(char *cmd_line);
+int			*tokenization(char *cmd_line);
+void		fnorm_tokenizer(char *cmd_line, int *arr, int len, int *i);
+void		fnorm_tokenizer2(char *cmd_line, int *arr, int len, int *i);
+void		quot_editor(int *arr, int len);
 //void	ft_tokadd_back(t_token **tok, t_token *new);
+
+//cmd init
+int			get_cmd_count(int *arr);
+void		skip_spaces(int *i, int *arr);
+t_element	**cmd_init(char *line, int *arr);
+
 //utils
-char	*ft_str_start_trim(char const *s1, char const *set);
+char		*ft_str_start_trim(char const *s1, char const *set);
 
 
 //env 
-t_env *pars_env(char **env);
-char **get_arr_env(t_env *l_env);
+t_env		*pars_env(char **env);
+char		**get_arr_env(t_env *l_env);
 
 
 #endif

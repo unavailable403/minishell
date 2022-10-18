@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 14:35:44 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/13 22:08:38 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/18 17:31:10 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void	tokenizer(char *cmd_line, int *arr, int len)
 			arr[i] = SPACE_TK;
 		else if (cmd_line [i] == '|' && cmd_line[i + 1] != '|')
 			arr[i] = PIPE;
-		else if (cmd_line [i] == ';')
-			arr[i] = DOT_COMMA;
 		else if (cmd_line [i] == '(')
 			arr[i] = L_SCOPE;
 		else if (cmd_line [i] == ')')
@@ -94,8 +92,10 @@ int	*tokenization(char *cmd_line)
 	int		len;
 
 	len = ft_strlen(cmd_line);
-	arr = malloc (len * sizeof(int));
+	arr = malloc ((len + 1) * sizeof(int));
+	arr[len] = INT_MIN;
 	tokenizer(cmd_line, arr, len);
 	quot_editor(arr, len);
+	get_cmd_count(arr);
 	return (arr);
 }
