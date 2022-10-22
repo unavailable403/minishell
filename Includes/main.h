@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
+/*   By: smikayel <smikayel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:33:14 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/13 20:36:19 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/22 15:46:29 by smikayel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+# define ECHO "echo"
+# define CD "cd"
+# define EXPORT "export"
+# define UNSET "unset"
+# define ENV "env"
+# define EXIT "exit"
 
 typedef struct s_command
 {

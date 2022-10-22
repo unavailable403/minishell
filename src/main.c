@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
+/*   By: smikayel <smikayel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/13 21:20:39 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/22 18:27:55 by smikayel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,42 @@ t_env *get_value_from_env(t_env *env, char *name)
 		env = env->next;
 	}
 	return NULL;
+}
+
+char *get_cmd_name_from_path(char *cmd_path)
+{
+	int i;
+	char **split_path;
+
+	i = 0;
+	split_path = ft_split(cmd_path, '/');
+	if (split_path == NULL)
+		return NULL;
+	while (split_path[i] != NULL)
+	{
+		i++;
+	}
+	if (i > 0)
+		return (split_path[i - 1]);
+	return (split_path[i]);
+}
+
+int check_in_builtins(t_cmd **cmd_pointer)
+{
+	char *path;
+	t_cmd *cmd;
+	char *cmd_name;
+
+	cmd_name = cmd->element->command->cmd;
+	cmd = *cmd_pointer;
+	if (cmd_name != ECHO && cmd_name != CD && cmd_name != EXPORT
+		&& cmd_name != UNSET && cmd_name != ENV && cmd_name != EXIT)
+	{
+		cmd->status = 127;
+		return (-1);
+	}
+	cmd->status = 0;
+	return (1);
 }
 
 int check_cmd_in_path(t_cmd **cmd_pointer, char **separated_paths)
@@ -38,19 +74,40 @@ int check_cmd_in_path(t_cmd **cmd_pointer, char **separated_paths)
 		{
 			tmp_path = ft_strjoin(separated_paths[i], "/");
 			tmp_path =  ft_strjoin(tmp_path, cmd->element->command->cmd);
-			if (access(tmp_path, X_OK | R_OK) == 0)
+			if (access(tmp_path, R_OK) == 0)
 			{
-				cmd->element->command->path = tmp_path;
-				return (1);
+				if (access(tmp_path, X_OK) == 0)
+				{
+					cmd->element->command->path = tmp_path;
+					cmd->status = 0;
+					return (1);
+				}
+				else 
+					cmd->status = 126;
 			}
+			else
+				cmd->status = 127;
+			if (access(cmd->element->command->cmd, R_OK) == 0)
+			{
+				if (access(cmd->element->command->cmd, X_OK) == 0)
+				{
+					cmd->element->command->path = cmd->element->command->cmd;
+					cmd->element->command->cmd = get_cmd_name_from_path(cmd->element->command->path);
+					cmd->status = 0;
+					return (1);
+				}
+				else 
+					cmd->status = 126;
+			}
+			else 
+				cmd->status = 127;
 		}
-		else 
-			return (0);
+		else
+			return (-1);
 		i++;
 		free(tmp_path);
 	}
-	cmd->element->command->path = NULL;
-	return (-1);
+	return check_in_builtins(cmd_pointer);
 }
 
 
@@ -64,17 +121,38 @@ void lexer(t_cmd **cmd_pointer, t_env *env)
 	cmd = *cmd_pointer;
 	cmd_start = cmd;
 	path = get_value_from_env(env, "PATH");
-	if (path->val_value && *(path->val_value))
+	if (path && path->val_value && *(path->val_value))
 	{
 		separated_paths = ft_split(path->val_value, ':');
 		while (cmd)
 		{
-			printf("%d\n",check_cmd_in_path(&cmd, separated_paths));
+			if (check_cmd_in_path(&cmd, separated_paths) == 0)
+			{
+				cmd->status = 127;
+			}
 			cmd = cmd->next;
 		}
 	}
-	// printf("%s\n", path->val_value);
-	// if (!path)
+	else 
+	{
+		while (cmd)
+		{
+			if (access(cmd->element->command->cmd, R_OK) == 0)
+			{
+				if (access(cmd->element->command->cmd, X_OK) == 0)
+				{
+					cmd->element->command->path = cmd->element->command->cmd;
+					cmd->element->command->cmd = get_cmd_name_from_path(cmd->element->command->path);
+					cmd->status = 0;
+				}
+				else 
+					cmd->status = 126;
+			}
+			else 
+				cmd->status = 127;
+			cmd = cmd->next;
+		}
+	}
 
 }
 
@@ -115,6 +193,7 @@ int	main(int argc, char **argv, char **envp)
 	
 	printf("%s\n", cmd->element->command->args[0]);
 	env = pars_env(envp);
+	printf("AAA\n");
 	lexer(&cmd, env);
 	// while (1)
 	// {
