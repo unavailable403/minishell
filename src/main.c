@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/13 22:05:05 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/22 17:19:36 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	main(int argc, char **argv, char **_env)
 	char	*cmd_line;
 	int		*tokenized_line;
 	t_env	*env;
+	t_element	**elem;
 
 	env = pars_env(_env);
 	while (1)
@@ -27,6 +28,7 @@ int	main(int argc, char **argv, char **_env)
 		if (first_checker(cmd_line) == 0 && cmd_line[0] != '\0')
 		{
 			tokenized_line = tokenization(cmd_line);
+			elem = cmd_init(cmd_line, tokenized_line);
 		}
 		// lexer(&all_cmd);
 	}

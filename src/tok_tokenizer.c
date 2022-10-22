@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 14:35:44 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/18 17:31:10 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/22 17:05:41 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,14 @@ int	*tokenization(char *cmd_line)
 	t_token	*tok_line;
 	int		*arr;
 	int		len;
-
+	int		i;
+	
 	len = ft_strlen(cmd_line);
 	arr = malloc ((len + 1) * sizeof(int));
 	arr[len] = INT_MIN;
+	i = 0;
 	tokenizer(cmd_line, arr, len);
 	quot_editor(arr, len);
-	get_cmd_count(arr);
+	arg_counter(&i, arr);
 	return (arr);
 }

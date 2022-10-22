@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 22:08:59 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/13 22:09:14 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/22 16:35:13 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	quot_editor(int *arr, int len)
 			return ;
 		if (arr[i] == SINGLE_QUOTES)
 			make_single_quote(arr, len, &i);
-		else if (arr[i] == DOUBLE_QUOTES)
+		if (arr[i] == DOUBLE_QUOTES)
 			make_double_quote(arr, len, &i);
 		else
 			i++;
