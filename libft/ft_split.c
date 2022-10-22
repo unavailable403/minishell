@@ -51,7 +51,7 @@ static char	*fillword(const char *s, size_t startindex, size_t len)
 	return (word);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c)
 {
 	size_t	startindex;
 	size_t	endindex;

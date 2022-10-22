@@ -30,6 +30,7 @@
 typedef struct s_command
 {
 	char	*cmd;
+	char	*path;
 	char	**args;
 	int		in;
 	int		out;

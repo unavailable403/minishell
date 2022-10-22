@@ -12,6 +12,74 @@
 
 #include "main.h"
 
+t_env *get_value_from_env(t_env *env, char *name)
+{
+	while (env)
+	{
+		if (strcmp(env->val_name, name) == 0)
+			return (env);
+		env = env->next;
+	}
+	return NULL;
+}
+
+int check_cmd_in_path(t_cmd **cmd_pointer, char **separated_paths)
+{
+	t_cmd *cmd;
+	char *tmp_path;
+	char *tmp;
+	int i;
+
+	cmd = *cmd_pointer;
+	i = 0;
+	while (separated_paths[i])
+	{
+		if (cmd->element->type == 1)
+		{
+			tmp_path = ft_strjoin(separated_paths[i], "/");
+			tmp_path =  ft_strjoin(tmp_path, cmd->element->command->cmd);
+			if (access(tmp_path, X_OK | R_OK) == 0)
+			{
+				cmd->element->command->path = tmp_path;
+				return (1);
+			}
+		}
+		else 
+			return (0);
+		i++;
+		free(tmp_path);
+	}
+	cmd->element->command->path = NULL;
+	return (-1);
+}
+
+
+void lexer(t_cmd **cmd_pointer, t_env *env)
+{
+	t_cmd *cmd;
+	t_cmd *cmd_start;
+	t_env *path;
+	char **separated_paths;
+
+	cmd = *cmd_pointer;
+	cmd_start = cmd;
+	path = get_value_from_env(env, "PATH");
+	if (path->val_value && *(path->val_value))
+	{
+		separated_paths = ft_split(path->val_value, ':');
+		while (cmd)
+		{
+			printf("%d\n",check_cmd_in_path(&cmd, separated_paths));
+			cmd = cmd->next;
+		}
+	}
+	// printf("%s\n", path->val_value);
+	// if (!path)
+
+}
+
+
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*cmd_line;
@@ -45,8 +113,9 @@ int	main(int argc, char **argv, char **envp)
 	elem2 = __test_cmd(cmd2, args1, -1, 1);
 	cmd = __final_struct_maker(elem, elem1, elem2);
 	
-	printf("%s\n", cmd->next->next->element->command->args[0]);
-//	env = pars_env(envp);
+	printf("%s\n", cmd->element->command->args[0]);
+	env = pars_env(envp);
+	lexer(&cmd, env);
 	// while (1)
 	// {
 	// 	cmd_line = readline("Say - Hello myalmo > ");
