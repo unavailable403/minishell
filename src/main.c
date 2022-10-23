@@ -6,7 +6,7 @@
 /*   By: smikayel <smikayel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/22 18:27:55 by smikayel         ###   ########.fr       */
+/*   Updated: 2022/10/23 18:54:27 by smikayel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,19 @@ int check_cmd_in_path(t_cmd **cmd_pointer, char **separated_paths)
 	return check_in_builtins(cmd_pointer);
 }
 
+// void check_execute_modes(t_cmd **cmd_pointer)
+// {
+// 	t_cmd *cmd;
+
+// 	cmd = *cmd_pointer;
+// 	while (cmd)
+// 	{
+// 		if (cmd->next && cmd->next->element->type == 2)
+// 		{
+// 			cmd->exec_mode = 1
+// 		}
+// 	}
+// }
 
 void lexer(t_cmd **cmd_pointer, t_env *env)
 {
@@ -117,9 +130,11 @@ void lexer(t_cmd **cmd_pointer, t_env *env)
 	t_cmd *cmd_start;
 	t_env *path;
 	char **separated_paths;
+	int for_mode;
 
 	cmd = *cmd_pointer;
 	cmd_start = cmd;
+	for_mode = 0;
 	path = get_value_from_env(env, "PATH");
 	if (path && path->val_value && *(path->val_value))
 	{
@@ -152,10 +167,19 @@ void lexer(t_cmd **cmd_pointer, t_env *env)
 				cmd->status = 127;
 			cmd = cmd->next;
 		}
+		check_in_builtins(cmd_pointer);
 	}
-
+	// check_execute_modes(&cmd_start);
+	// try_redirections(cmd_pointer);
 }
 
+void executer(t_cmd **cmd_pointer, t_env **env)
+{
+	t_cmd *cmd;
+
+	cmd = cmd_pointer;
+	
+}
 
 
 int	main(int argc, char **argv, char **envp)
@@ -193,8 +217,8 @@ int	main(int argc, char **argv, char **envp)
 	
 	printf("%s\n", cmd->element->command->args[0]);
 	env = pars_env(envp);
-	printf("AAA\n");
 	lexer(&cmd, env);
+	// executer(cmd__pointer);
 	// while (1)
 	// {
 	// 	cmd_line = readline("Say - Hello myalmo > ");
