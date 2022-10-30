@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/22 17:19:36 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/30 04:19:19 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	main(int argc, char **argv, char **_env)
 {
-	char	*cmd_line;
-	int		*tokenized_line;
-	t_env	*env;
+	char		*cmd_line;
+	int			*tokenized_line;
+	t_env		*env;
 	t_element	**elem;
 
 	env = pars_env(_env);

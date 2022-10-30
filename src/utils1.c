@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 20:38:59 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/22 21:22:58 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/30 04:21:38 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,6 @@ char	*ft_str_start_trim(char const *s1, char const *set)
 
 void	skip_spaces(int *i, int *arr)
 {
-	while (arr[*i] == SPACE_TK)
+	while (arr[*i] == SPACE_TK || arr[*i] == L_SCOPE || arr[*i] == R_SCOPE)
 		(*i)++;
 }
