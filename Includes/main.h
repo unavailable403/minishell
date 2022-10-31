@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:33:14 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/22 21:23:18 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/31 22:23:03 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,15 @@ void		get_cmd_args(int *i, int *arr, t_element *elem, char *line);
 //utils
 char		*ft_str_start_trim(char const *s1, char const *set);
 void		skip_spaces(int *i, int *arr);
+int			empty_line(char *line);
+char	*ft_free_strjoin(char *s1, char *s2);
+void print_elem(t_element *elem);
 
 //env 
 t_env		*pars_env(char **env);
 char		**get_arr_env(t_env *l_env);
 
+//expansion
+void	get_variables(t_env *env, t_element **elem);
 
 #endif

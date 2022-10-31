@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:21:00 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/22 21:22:52 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/31 22:22:50 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,19 @@ char	*and_or_doc(int *i, int *arr)
 	return (NULL);
 }
 
+void print_elem(t_element *elem)
+{
+	if (elem->command)
+		printf("command : %s\n", elem->command->cmd);
+	if (elem->command->args)
+	{
+		printf("args :");
+		for (int u = 0; elem->command->args[u] != NULL; u++)
+			printf("%s, ", elem->command->args[u]);
+		printf("\n");
+	}
+}
+
 void	get_cmd(int *i, int *arr, t_element *elem, char *line)
 {
 	while (arr[*i] != INT_MIN)
@@ -88,15 +101,6 @@ void	get_cmd(int *i, int *arr, t_element *elem, char *line)
 		else
 			fnorm_get_cmd(i, arr, elem, line);
 		break ;
-	}
-	if (elem->command)
-		printf("command : %s\n", elem->command->cmd);
-	if (elem->command->args)
-	{
-		printf("args :");
-		for (int u = 0; elem->command->args[u] != NULL; u++)
-			printf("%s, ", elem->command->args[u]);
-		printf("\n");
 	}
 }
 

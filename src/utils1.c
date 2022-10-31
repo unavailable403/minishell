@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 20:38:59 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/30 04:21:38 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/10/31 21:18:26 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,30 @@ static int	first_set_count(char const *str, char const *set)
 	return (count);
 }
 
+char	*ft_free_strjoin(char *s1, char *s2)
+{
+	char		*new_str;
+	size_t		f_index;
+	size_t		s_index;
+
+	new_str = malloc(sizeof (char)
+			* (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!new_str)
+		return (NULL);
+	f_index = 0;
+	s_index = 0;
+	if (s1)
+		while (s1[f_index])
+			new_str[s_index++] = s1[f_index++];
+	f_index = 0;
+	if (s2)
+		while (s2[f_index])
+			new_str[s_index++] = s2[f_index++];
+	new_str[s_index] = '\0';
+	free(s1);
+	return (new_str);
+}
+
 char	*ft_str_start_trim(char const *s1, char const *set)
 {
 	size_t	lenght;
@@ -57,4 +81,18 @@ void	skip_spaces(int *i, int *arr)
 {
 	while (arr[*i] == SPACE_TK || arr[*i] == L_SCOPE || arr[*i] == R_SCOPE)
 		(*i)++;
+}
+
+int	empty_line(char *line)
+{
+	int	i;
+
+	i = 0;
+	if (line == NULL || line[0] == '\0')
+		return (1);
+	while (line[i] == ' ')
+		i++;
+	if (line[i] == '\0' && line[i - 1] == ' ')
+		return (2);
+	return (0);
 }
