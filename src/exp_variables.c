@@ -6,11 +6,34 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 19:40:45 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/31 22:49:06 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/11/04 20:56:55 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
+int	is_var_cmd(char *args)
+{
+	int	j;
+
+	j = 0;
+	if (!args)
+		return (1);
+	while (args[j])
+	{
+		if (args[j] == '\'')
+			while (args && args[++j] != '\'')
+				;
+		if (args[j] == '\0')
+			return (1);
+		if (args[j] == '$' && args[j + 1] != ' '
+			&& args[j + 1] != '\0')
+			return (0);
+		else
+			j++;
+	}
+	return (1);
+}
 
 int	is_var(char **args)
 {
@@ -25,10 +48,14 @@ int	is_var(char **args)
 		j = 0;
 		while (args[i][j])
 		{
-			if (args[i][0] != '\'')
-				if (args[i][j] == '$' && args[i][j + 1] != ' '
+			if (args[i][j] == '\'')
+				while (args && args[i][++j] != '\'')
+					;
+			if (args[i][j] == '\0')
+				break ;
+			if (args[i][j] == '$' && args[i][j + 1] != ' '
 					&& args[i][j + 1] != '\0')
-					return (0);
+				return (0);
 			j++;
 		}
 		i++;
@@ -63,15 +90,17 @@ void	change_var(t_env *env, char **args, int i, int *j)
 	int		x;
 
 	x = *j;
-	while (args[i][x] && args[i][x] != ' ' && args[i][x] != '\0'
-		&& args[i][x] != '"')
+	while (args[i][x] && args[i][x] != ' '
+		&& args[i][x] != '"' && args[i][x] != '\'')
 		x++;
-	x--;
-	name = ft_substr(args[i], ((*j) + 1), (x - (*j)));
-	get_var_env_value(env, &name);
-	f_arg = ft_substr(args[i], 0, *j);
+	if (*j != 0)
+		f_arg = ft_substr(args[i], 0, *j);
+	else
+		f_arg = ft_calloc(0, sizeof(char *));
+	(*j)++;
+	name = get_env_value(env, args[i], j);
 	f_arg = ft_free_strjoin(f_arg, name);
-	tmp = ft_substr(args[i], (x + 1), (ft_strlen(args[i]) - x));
+	tmp = ft_substr(args[i], x, (ft_strlen(args[i]) - x - 1));
 	f_arg = ft_free_strjoin(f_arg, tmp);
 	free(tmp);
 	free(name);
@@ -82,26 +111,33 @@ void	change_var(t_env *env, char **args, int i, int *j)
 	// exit(0);
 }
 
-void	get_var(t_env *env, char **args)
+void	get_var(t_env *env, t_command *cmd)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	i = 0;
-	while (args[i])
+	while (cmd->args && cmd->args[i])
 	{
 		j = 0;
-		while (args[i][j])
+		while (cmd->args[i][j])
 		{
-			if (args[i][0] != '\'')
-				if (args[i][j] == '$' && args[i][j + 1] != ' '
-					&& args[i][j + 1] != '\0')
-					change_var(env, args, i, &j);
+			if (cmd->args[i][j] == '\'')
+			{
+				while (cmd->args && cmd->args[i][++j] != '\'')
+					;
+				j++;
+			}
+			if (cmd->args[i][j] != '\0' && cmd->args[i][j] == '$' && (cmd->args[i][j + 1] != ' '
+					|| cmd->args[i][j + 1] != '\0'))
+				change_var(env, cmd->args, i, &j);
+				// printf("\ngago\n");
+			if (cmd->args[i][j] == '\0')
+				break ;
 			j++;
 		}
 		i++;
 	}
-
 }
 
 void	get_new_args(char **new, t_command *command)
@@ -149,6 +185,12 @@ void	join_option(t_command *command)
 			get_new_args(new, command);
 			break ;
 		}
+		else if (command->args[0][i] == '\'')
+		{
+			new = ft_split(command->args[0], '\'');
+			get_new_args(new, command);
+			break ;
+		}
 		else
 			i++;
 	}
@@ -164,7 +206,86 @@ void	remove_option(t_command *command)
 		i++;
 	new_cmd = ft_substr(command->cmd, 0, i);
 	free(command->cmd);
-	command->cmd = new_cmd;
+	command->cmd = ft_strdup(new_cmd);
+	free(new_cmd);
+}
+
+char	*get_env_value(t_env *env, char *str, int *i)
+{
+	char	*tmp;
+	t_env	*ptr;
+	int		j;
+
+	j = *i;
+	ptr = env;
+	while (str[j] && str[j] != ' ' && str[j] != '\0' && str[j] != '\'')
+		j++;
+	tmp = ft_substr(str, *i, (j - (*i)));
+	*i = j;
+	while (ptr)
+	{
+		if (ft_strcmp(ptr->val_name, tmp) == 0)
+			break ;
+		if (ptr->next == NULL)
+		{
+			ptr = NULL;
+			break ;
+		}
+		ptr = ptr->next;
+	}
+	if (ptr == NULL)
+		return (free(tmp), ft_strdup(""));
+	return (free(tmp), ft_strdup(ptr->val_value));
+}
+
+char	*change_var_cmd(char *str, int *i, t_env *env)
+{
+	char	*tmp;
+	char	*tmp2;
+	int		j;
+
+	while (str && str[*i])
+	{
+		if (str[(*i)] == '$')
+			tmp = get_env_value(env, str, i);
+		if (str [*i] == '\0')
+			return (tmp);
+		else
+		{
+			j = *i;
+			while (str[j] && str[j] != ' ')
+				j++;
+			tmp2 = ft_substr(str, *i, (j - 1) - (*i));
+			tmp = ft_free_strjoin(tmp, tmp2);
+			*i = j;
+			return (free(tmp2), tmp);
+		}
+		(*i)++;
+	}
+	return (NULL);
+}
+
+void	get_var_cmd(t_env *env, t_command *cmd)
+{
+	int		i;
+	char	*command;
+
+	command = ft_strdup(cmd->cmd);
+	free(cmd->cmd);
+	i = 0;
+	while (command && command[i])
+	{
+		if (command[i] == '\'')
+			while (command && command[++i] != '\'')
+				;
+		if (command[i] == '\0')
+			return ;
+		if (command[i] == '$' && command[i + 1] != ' '
+			&& command[i + 1] != '\0')
+			cmd->cmd = change_var_cmd(command, &i, env);
+		else
+			i++;
+	}
 }
 
 void	get_variables(t_env *env, t_element **elem)
@@ -174,24 +295,22 @@ void	get_variables(t_env *env, t_element **elem)
 	i = 0;
 	while (elem[i])
 	{
-		//printf("\n%d\n", is_var(elem[i]->command->args));
-		if (is_var(&elem[i]->command->cmd) == 0)
-		{
-			get_var(env, &elem[i]->command->cmd);
-			remove_option(elem[i]->command);
-			print_elem(elem[i]);
-		}
-		if (is_var(elem[i]->command->args) == 0)
-		{
-			get_var(env, elem[i]->command->args);
-			join_option(elem[i]->command);
-			print_elem(elem[i]);
-		}
+		if (is_var_cmd(elem[i]->command->cmd) != 0 && is_var(elem[i]->command->args) != 0)
+			i++;
 		else
 		{
+			if (is_var_cmd(elem[i]->command->cmd) == 0)
+			{
+				get_var_cmd(env, elem[i]->command);
+				remove_option(elem[i]->command);
+			}
+			if (is_var(elem[i]->command->args) == 0)
+			{
+				// printf("Check\n");
+				get_var(env, elem[i]->command);
+				join_option(elem[i]->command);
+			}
 			i++;
-			// printf("tamama\n");
-			break ;
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:21:00 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/31 22:22:50 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/11/04 16:49:21 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*and_or_doc(int *i, int *arr)
 
 void print_elem(t_element *elem)
 {
-	if (elem->command)
+	if (elem->command && elem->command->cmd)
 		printf("command : %s\n", elem->command->cmd);
 	if (elem->command->args)
 	{

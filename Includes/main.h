@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:33:14 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/31 22:23:03 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/11/04 16:53:54 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,12 @@ void		skip_spaces(int *i, int *arr);
 int			empty_line(char *line);
 char	*ft_free_strjoin(char *s1, char *s2);
 void print_elem(t_element *elem);
+
+//variable expansion
+char	*get_env_value(t_env *env, char *str, int *i);
+void	get_var_cmd(t_env *env, t_command *cmd);
+char	*change_var_cmd(char *str, int *i, t_env *env);
+char	*get_env_value(t_env *env, char *str, int *i);
 
 //env 
 t_env		*pars_env(char **env);
