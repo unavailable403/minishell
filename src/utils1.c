@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 20:38:59 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/31 21:18:26 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/11/14 15:14:41 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ char	*ft_free_strjoin(char *s1, char *s2)
 	size_t		f_index;
 	size_t		s_index;
 
+	if (!s1)
+		return(ft_strdup(s2));
 	new_str = malloc(sizeof (char)
 			* (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!new_str)
@@ -53,7 +55,8 @@ char	*ft_free_strjoin(char *s1, char *s2)
 		while (s2[f_index])
 			new_str[s_index++] = s2[f_index++];
 	new_str[s_index] = '\0';
-	free(s1);
+	if(s1)
+		free(s1);
 	return (new_str);
 }
 
