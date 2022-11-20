@@ -50,9 +50,9 @@ int check_in_builtins(t_cmd **cmd_pointer)
 	cmd = *cmd_pointer;
 	cmd_name = cmd->element->command->cmd;
 
-	if (strcmp(cmd_name, ECHO) == 0 && strcmp(cmd_name, CD) == 0 &&
-	strcmp(cmd_name, EXPORT) == 0 && strcmp(cmd_name, UNSET) == 0 && 
-	strcmp(cmd_name, ENV) == 0 && strcmp(cmd_name, EXIT) == 0)
+	if (strcmp(cmd_name, ECHO) != 0 && strcmp(cmd_name, CD) != 0 &&
+	strcmp(cmd_name, EXPORT) != 0 && strcmp(cmd_name, UNSET) != 0 && 
+	strcmp(cmd_name, ENV) != 0 && strcmp(cmd_name, EXIT) != 0)
 	{
 		cmd->status = 127;
 		return (-1);
@@ -109,22 +109,8 @@ int check_cmd_in_path(t_cmd **cmd_pointer, char **separated_paths)
 		i++;
 		free(tmp_path);
 	}
-	return check_in_builtins(&cmd);
+	return check_in_builtins(cmd_pointer);
 }
-
-// void check_execute_modes(t_cmd **cmd_pointer)
-// {
-// 	t_cmd *cmd;
-
-// 	cmd = *cmd_pointer;
-// 	while (cmd)
-// 	{
-// 		if (cmd->next && cmd->next->element->type == 2)
-// 		{
-// 			cmd->exec_mode = 1
-// 		}
-// 	}
-// }
 
 void lexer(t_cmd **cmd_pointer, t_env *env)
 {
@@ -196,7 +182,7 @@ int	main(int argc, char **argv, char **envp)
 	char **args;
 	char **args1;
 	
-	cmd1 = ft_strdup("cd");
+	cmd1 = ft_strdup("ls");
 	cmd2 = ft_strdup("echo");
 	
 	args = malloc(4 * sizeof(char *));
@@ -230,15 +216,16 @@ int	main(int argc, char **argv, char **envp)
 	 permissions)
 	*/
 
-
+	// executer();
 	
 	
-	printf("\n\n\n\n");
-	while (cmd->next)
-	{
-		printf("cmd : %s, status: %d\n", cmd->element->command->cmd, cmd->status);
-		cmd = cmd->next;
-	}
+	// this is for just testing command status 
+	// printf("\n\n\n\n");
+	// while (cmd->next)
+	// {
+	// 	printf("cmd : %s, status: %d\n", cmd->element->command->cmd, cmd->status);
+	// 	cmd = cmd->next;
+	// }
 
 
 
