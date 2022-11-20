@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "array": "c",
+        "*.tcc": "c",
+        "deque": "c",
+        "string": "c",
+        "vector": "c",
+        "string_view": "c",
+        "functional": "c",
+        "initializer_list": "c",
+        "numeric": "c",
+        "streambuf": "c",
+        "tuple": "c",
+        "utility": "c"
+    }
+}

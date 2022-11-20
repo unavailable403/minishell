@@ -47,10 +47,12 @@ int check_in_builtins(t_cmd **cmd_pointer)
 	t_cmd *cmd;
 	char *cmd_name;
 
-	cmd_name = cmd->element->command->cmd;
 	cmd = *cmd_pointer;
-	if (cmd_name != ECHO && cmd_name != CD && cmd_name != EXPORT
-		&& cmd_name != UNSET && cmd_name != ENV && cmd_name != EXIT)
+	cmd_name = cmd->element->command->cmd;
+
+	if (strcmp(cmd_name, ECHO) == 0 && strcmp(cmd_name, CD) == 0 &&
+	strcmp(cmd_name, EXPORT) == 0 && strcmp(cmd_name, UNSET) == 0 && 
+	strcmp(cmd_name, ENV) == 0 && strcmp(cmd_name, EXIT) == 0)
 	{
 		cmd->status = 127;
 		return (-1);
@@ -107,7 +109,7 @@ int check_cmd_in_path(t_cmd **cmd_pointer, char **separated_paths)
 		i++;
 		free(tmp_path);
 	}
-	return check_in_builtins(cmd_pointer);
+	return check_in_builtins(&cmd);
 }
 
 // void check_execute_modes(t_cmd **cmd_pointer)
@@ -141,7 +143,7 @@ void lexer(t_cmd **cmd_pointer, t_env *env)
 		separated_paths = ft_split(path->val_value, ':');
 		while (cmd)
 		{
-			if (check_cmd_in_path(&cmd, separated_paths) == 0)
+			if (check_cmd_in_path(&cmd, separated_paths) == -1)
 			{
 				cmd->status = 127;
 			}
@@ -167,19 +169,18 @@ void lexer(t_cmd **cmd_pointer, t_env *env)
 				cmd->status = 127;
 			cmd = cmd->next;
 		}
-		check_in_builtins(cmd_pointer);
+		if (check_in_builtins(cmd_pointer) == -1)
+			cmd->status = 127;
 	}
-	// check_execute_modes(&cmd_start);
-	// try_redirections(cmd_pointer);
 }
 
-void executer(t_cmd **cmd_pointer, t_env **env)
-{
-	t_cmd *cmd;
+// void executer(t_cmd **cmd_pointer, t_env **env)
+// {
+// 	t_cmd *cmd;
 
-	cmd = cmd_pointer;
+// 	cmd = cmd_pointer;
 	
-}
+// }
 
 
 int	main(int argc, char **argv, char **envp)
@@ -195,11 +196,11 @@ int	main(int argc, char **argv, char **envp)
 	char **args;
 	char **args1;
 	
-	cmd1 = ft_strdup("ls");
+	cmd1 = ft_strdup("cd");
 	cmd2 = ft_strdup("echo");
 	
 	args = malloc(4 * sizeof(char *));
-	args[0] = ft_strdup("ls");
+	args[0] = ft_strdup("asd");
 	args[1] = ft_strdup("-l");
 	args[2] = ft_strdup("-a");
 	args[3] = NULL;
@@ -211,13 +212,36 @@ int	main(int argc, char **argv, char **envp)
 	args1[3] = NULL;
 
 	elem = __test_cmd(cmd1, args, -1, 1);
-	elem1 = __test_cmd(NULL, NULL, AND_OR, 2);
-	elem2 = __test_cmd(cmd2, args1, -1, 1);
+	elem1= __test_cmd(cmd2, args1, -1, 1);
+	elem2 = __test_cmd(NULL, NULL, AND_OR, 2);
 	cmd = __final_struct_maker(elem, elem1, elem2);
+	cmd->element->command->cmd = cmd1;
+	cmd->next->element->command->cmd = cmd2;
+	// cmd = cmd->next;
+	printf("%s\n", cmd->element->command->cmd);
+	printf("%s\n", cmd->next->element->command->cmd);
+	env = pars_env(envp); // env in format env _t 
 	
-	printf("%s\n", cmd->element->command->args[0]);
-	env = pars_env(envp);
-	lexer(&cmd, env);
+	
+	
+	
+	lexer(&cmd, env);  /* checking if cmd not found, also setting the command path witch will help to execute the command 
+	 in case when the command is builtin it will just check and set the cmd status 0, overview it will set to 127 (IF COMMAND NOT FOUND AND 126 if there is not enough
+	 permissions)
+	*/
+
+
+	
+	
+	printf("\n\n\n\n");
+	while (cmd->next)
+	{
+		printf("cmd : %s, status: %d\n", cmd->element->command->cmd, cmd->status);
+		cmd = cmd->next;
+	}
+
+
+
 	// executer(cmd__pointer);
 	// while (1)
 	// {
