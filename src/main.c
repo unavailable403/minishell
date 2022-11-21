@@ -6,7 +6,7 @@
 /*   By: smikayel <smikayel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/23 18:54:27 by smikayel         ###   ########.fr       */
+/*   Updated: 2022/11/22 00:54:22 by smikayel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,13 +160,85 @@ void lexer(t_cmd **cmd_pointer, t_env *env)
 	}
 }
 
-// void executer(t_cmd **cmd_pointer, t_env **env)
-// {
-// 	t_cmd *cmd;
+void print_error_out_and_exit(char *msg, int out_fd)
+{
+	write(out_fd, msg, strlen(msg));
+	exit(out_fd);
+}
 
-// 	cmd = cmd_pointer;
+pid_t	fork_checking(t_cmd **cmd)
+{
+	pid_t	proces_id;
+	t_cmd *command;
+
+	command = *cmd;
+	proces_id = fork();
+	if (proces_id < 0)
+		print_error_out_and_exit("Can not fork: Terminal allocation crushed!", command->element->command->out);
+	return (proces_id);
+}
+
+
+void	run_command_one(t_cmd **command, char **env)
+{
+	t_cmd *cmd;
 	
+	cmd = *command;
+	dup2(cmd->element->command->out, 1);
+	close(cmd->element->command->out);
+	// close(cmd->element->command->in);
+	dup2(cmd->element->command->in, 0);
+	close(cmd->element->command->in);
+	if (execve(cmd->element->command->path, cmd->element->command->args, env) == -1)
+		exit(cmd->element->command->out);
+}
+
+int	execute_2(t_env **env, t_cmd **cmd)
+{
+	// t_command	*commands;
+	pid_t	process_id;
+
+	process_id = fork_checking(cmd); // will fork proccess and return proccess id
+	if (process_id == 0)
+		run_command_one(cmd,  get_arr_env(*env));
+	
+	
+	
+	
+	
+	
+	
+	// proc->child2 = fork_checking();
+	// if (proc->child2 == 0)
+	// 	run_command_two(proc, commands->sec->cmd_path, argv[3], env);
+	// close_pipe_to_ends(proc->pip_in_out);
+	// wait_process(proc->child1, proc->child2);
+	// free_structs(commands, proc);
+	return (0);
+}
+
+
+// void execute_one(t_cmd **cmd_pointer, t_env *env)
+// {
+	
+// 	// dub 2 input
 // }
+
+void executer(t_cmd **cmd_pointer, t_env *env)
+{
+	t_cmd *cmd;
+
+	cmd = *cmd_pointer;
+	// if one command
+	if (!cmd->next)
+		execute_2(&env, cmd_pointer);
+		// printf("yeh just one command\n"); // need function witch will execute just one command 
+	// if 2 or more commands
+		// check or 
+		// check and 
+		// check pipe
+	printf("sorry I didn't know how to run this yet\n");
+}
 
 
 int	main(int argc, char **argv, char **envp)
@@ -186,7 +258,7 @@ int	main(int argc, char **argv, char **envp)
 	cmd2 = ft_strdup("echo");
 	
 	args = malloc(4 * sizeof(char *));
-	args[0] = ft_strdup("asd");
+	args[0] = ft_strdup("ls");
 	args[1] = ft_strdup("-l");
 	args[2] = ft_strdup("-a");
 	args[3] = NULL;
@@ -202,10 +274,15 @@ int	main(int argc, char **argv, char **envp)
 	elem2 = __test_cmd(NULL, NULL, AND_OR, 2);
 	cmd = __final_struct_maker(elem, elem1, elem2);
 	cmd->element->command->cmd = cmd1;
+	cmd->element->command->in = 4;
+	cmd->element->command->out = 5;
+
+	
 	cmd->next->element->command->cmd = cmd2;
+	cmd->next = NULL;
 	// cmd = cmd->next;
-	printf("%s\n", cmd->element->command->cmd);
-	printf("%s\n", cmd->next->element->command->cmd);
+	// printf("%s\n", cmd->element->command->cmd);
+	// printf("%s\n", cmd->next->element->command->cmd);
 	env = pars_env(envp); // env in format env _t 
 	
 	
@@ -216,16 +293,16 @@ int	main(int argc, char **argv, char **envp)
 	 permissions)
 	*/
 
-	// executer();
+	executer(&cmd, env); /*this is executer function here will be cheeked that if next cmd element type is pipe/and/or will called function what is needed*/
 	
 	
 	// this is for just testing command status 
 	// printf("\n\n\n\n");
-	// while (cmd->next)
-	// {
-	// 	printf("cmd : %s, status: %d\n", cmd->element->command->cmd, cmd->status);
-	// 	cmd = cmd->next;
-	// }
+	while (cmd->next)
+	{
+		printf("cmd : %s, status: %d , path: %s\n", cmd->element->command->cmd, cmd->status, cmd->element->command->path);
+		cmd = cmd->next;
+	}
 
 
 

@@ -6,7 +6,7 @@
 /*   By: smikayel <smikayel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:33:14 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/22 15:46:29 by smikayel         ###   ########.fr       */
+/*   Updated: 2022/11/21 23:12:04 by smikayel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@
 # define UNSET "unset"
 # define ENV "env"
 # define EXIT "exit"
+
+
+
+/// boolean operators in shell
+#define AND "&&"
+#define OR "||"
 
 typedef struct s_command
 {

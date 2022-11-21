@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_helpers.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smikayel <smikayel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/20 23:16:47 by smikayel          #+#    #+#             */
+/*   Updated: 2022/11/20 23:17:04 by smikayel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "main.h"
 
 static char *get_val_name(char *env_line)
@@ -44,7 +57,6 @@ static char *get_val(char *env_line)
     }
     return value;
 }
-
 
 //get the linked list from char** ENV
 t_env *pars_env(char **env)
