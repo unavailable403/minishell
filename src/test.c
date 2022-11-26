@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
+/*   By: smikayel <smikayel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:55:15 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/10/13 21:15:12 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/11/26 16:27:28 by smikayel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ t_cmd	*__final_struct_maker(t_element *elem1, t_element *elem2, t_element *elem3
 	t_cmd	*cmd;
 	
 	cmd = malloc(sizeof(t_cmd));
-	if (!(cmd || elem1 || elem2 || elem3))
-		return(("gago\n", NULL));
+	// if (!(cmd || elem1 || elem2 || elem3))
+	// 	return(("gago\n", NULL));
 	cmd->element = elem1;
 	cmd->prev = NULL;
 	cmd->next = malloc(sizeof(t_cmd));

@@ -6,7 +6,7 @@
 /*   By: smikayel <smikayel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/11/22 22:04:39 by smikayel         ###   ########.fr       */
+/*   Updated: 2022/11/26 17:30:04 by smikayel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ pid_t	fork_checking(t_cmd **cmd)
 void	run_command_one(t_cmd **command, char **env)
 {
 	t_cmd *cmd;
-	
+
 	cmd = *command;
 	dup2(cmd->element->command->out, 1);
 	close(cmd->element->command->out);
@@ -205,10 +205,11 @@ void cmd_exec_error(t_cmd	*cmd_p)
 		write(cmd_p->element->command->out, "Command not found!", strlen("Command not found!"));
 }
 
-int	execute_2(t_env **env, t_cmd **cmd)
+int	execute_just_one(t_env **env, t_cmd **cmd)
 {
 	t_cmd	*cmd_p;
 	pid_t	process_id;
+	int		status;
 
 	cmd_p = *cmd;
 	if (cmd_p->element->type != 2 && (cmd_p->status != 127 || cmd_p->status != 126))
@@ -216,18 +217,16 @@ int	execute_2(t_env **env, t_cmd **cmd)
 		process_id = fork_checking(cmd); // will fork proccess and return proccess id
 		if (process_id == 0)
 			run_command_one(cmd,  get_arr_env(*env));	
+		else 
+		{
+			waitpid(process_id, &status, WUNTRACED | WCONTINUED); // need to change the place where it needs to be 
+			/*as we can get the situation when our secund cmd will wait to this but hey need to work in the same time not waiting to each other,
+			so seems to change waiting (need to check maybe with just one command it's normal)*/
+			cmd_p->status = status;
+		}
 	}
 	else
-	{
-		printf("asdasd\n");
 		cmd_exec_error(cmd_p);
-	}
-	
-	
-	
-	
-	
-	
 	
 	// proc->child2 = fork_checking();
 	// if (proc->child2 == 0)
@@ -239,11 +238,13 @@ int	execute_2(t_env **env, t_cmd **cmd)
 }
 
 
-// void execute_one(t_cmd **cmd_pointer, t_env *env)
-// {
+void execute_with_and(t_env *env, t_cmd **cmd_pointer)
+{
+	// execute command with and ( && )
 	
-// 	// dub 2 input
-// }
+	
+}
+
 
 void executer(t_cmd **cmd_pointer, t_env *env)
 {
@@ -252,13 +253,28 @@ void executer(t_cmd **cmd_pointer, t_env *env)
 	cmd = *cmd_pointer;
 	// if one command
 	if (!cmd->next)
-		execute_2(&env, cmd_pointer);
+		execute_just_one(&env, cmd_pointer);
+	// more then one command with delimitors
+	else
+	{
+		while (cmd)
+		{
+			if (strcmp(cmd->element->command->cmd, "&&") == 0)
+			{
+				execute_with_and(&env, cmd_pointer);	
+				// need to go to next next next 
+				
+			}
+			cmd = cmd->next;
+		}
+		printf("this is 2 cmd or more\n\n");
+	}
 		// printf("yeh just one command\n"); // need function witch will execute just one command 
 	// if 2 or more commands
 		// check or 
 		// check and 
 		// check pipe
-	printf("sorry I didn't know how to run this yet\n");
+	// printf("sorry I didn't know how to run this yet\n");
 }
 
 
@@ -275,7 +291,7 @@ int	main(int argc, char **argv, char **envp)
 	char **args;
 	char **args1;
 	
-	cmd1 = ft_strdup("|");
+	cmd1 = ft_strdup("ls");
 	cmd2 = ft_strdup("echo");
 	
 	args = malloc(4 * sizeof(char *));
@@ -297,25 +313,19 @@ int	main(int argc, char **argv, char **envp)
 	cmd->element->command->cmd = cmd1;
 	cmd->element->command->in = 4;
 	cmd->element->command->out = 5;
-
 	
 	cmd->next->element->command->cmd = cmd2;
 	cmd->next = NULL;
 	// cmd = cmd->next;
 	// printf("%s\n", cmd->element->command->cmd);
 	// printf("%s\n", cmd->next->element->command->cmd);
-	env = pars_env(envp); // env in format env _t 
-	
-	
-	
-	
+	env = pars_env(envp); // env in format env _t 	
 	lexer(&cmd, env);  /* checking if cmd not found, also setting the command path witch will help to execute the command 
 	 in case when the command is builtin it will just check and set the cmd status 0, overview it will set to 127 (IF COMMAND NOT FOUND AND 126 if there is not enough
 	 permissions)
 	*/
 	executer(&cmd, env); /*this is executer function here will be cheeked that if next cmd element type is pipe/and/or will called function what is needed*/
-	
-	
+
 	// this is for just testing command status 
 	// printf("\n\n\n\n");
 	while (cmd->next)
@@ -323,9 +333,6 @@ int	main(int argc, char **argv, char **envp)
 		printf("cmd : %s, status: %d , path: %s\n", cmd->element->command->cmd, cmd->status, cmd->element->command->path);
 		cmd = cmd->next;
 	}
-
-
-
 	// executer(cmd__pointer);
 	// while (1)
 	// {
