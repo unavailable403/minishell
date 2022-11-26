@@ -6,7 +6,7 @@
 /*   By: smikayel <smikayel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/11/26 18:41:39 by smikayel         ###   ########.fr       */
+/*   Updated: 2022/11/26 18:42:24 by smikayel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,6 @@ void	run_command_one(t_cmd **command, char **env)
 	dup2(cmd->element->command->out, 1);
 	close(cmd->element->command->out);
 	// close(cmd->element->command->in);
-
 	dup2(cmd->element->command->in, 0);
 	close(cmd->element->command->in);
 	if (execve(cmd->element->command->path, cmd->element->command->args, env) == -1)
