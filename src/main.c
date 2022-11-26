@@ -6,7 +6,7 @@
 /*   By: smikayel <smikayel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/11/26 17:30:04 by smikayel         ###   ########.fr       */
+/*   Updated: 2022/11/26 18:41:39 by smikayel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,9 +186,11 @@ void	run_command_one(t_cmd **command, char **env)
 	t_cmd *cmd;
 
 	cmd = *command;
+	printf("\n\n\n\n\n\naaaassste;jwjegjgf\n");
 	dup2(cmd->element->command->out, 1);
 	close(cmd->element->command->out);
 	// close(cmd->element->command->in);
+
 	dup2(cmd->element->command->in, 0);
 	close(cmd->element->command->in);
 	if (execve(cmd->element->command->path, cmd->element->command->args, env) == -1)
@@ -217,7 +219,7 @@ int	execute_just_one(t_env **env, t_cmd **cmd)
 		process_id = fork_checking(cmd); // will fork proccess and return proccess id
 		if (process_id == 0)
 			run_command_one(cmd,  get_arr_env(*env));	
-		else 
+		else
 		{
 			waitpid(process_id, &status, WUNTRACED | WCONTINUED); // need to change the place where it needs to be 
 			/*as we can get the situation when our secund cmd will wait to this but hey need to work in the same time not waiting to each other,
@@ -237,14 +239,24 @@ int	execute_just_one(t_env **env, t_cmd **cmd)
 	return (0);
 }
 
-
-void execute_with_and(t_env *env, t_cmd **cmd_pointer)
+void execute_with_and(t_env **env, t_cmd **cmd_pointer)
 {
-	// execute command with and ( && )
-	
-	
-}
+	t_cmd *cmd;
+	t_cmd *first_cmd;
+	t_cmd *secund_cmd;
 
+	cmd = *cmd_pointer;
+	first_cmd = cmd;
+	secund_cmd = cmd->next->next;
+	printf("%s\n", cmd->element->command->cmd);
+	printf("%s\n",	secund_cmd->element->command->cmd);
+	// execute command with and ( && )
+	execute_just_one(env, &first_cmd);
+	if (first_cmd->status == 0)
+		execute_just_one(env, &secund_cmd);
+	else
+		return ;
+}
 
 void executer(t_cmd **cmd_pointer, t_env *env)
 {
@@ -257,17 +269,17 @@ void executer(t_cmd **cmd_pointer, t_env *env)
 	// more then one command with delimitors
 	else
 	{
+
 		while (cmd)
 		{
 			if (strcmp(cmd->element->command->cmd, "&&") == 0)
 			{
+				printf("GAAAAG\n");
 				execute_with_and(&env, cmd_pointer);	
 				// need to go to next next next 
-				
 			}
 			cmd = cmd->next;
 		}
-		printf("this is 2 cmd or more\n\n");
 	}
 		// printf("yeh just one command\n"); // need function witch will execute just one command 
 	// if 2 or more commands
@@ -286,36 +298,91 @@ int	main(int argc, char **argv, char **envp)
 	t_element	*elem1;
 	t_element	*elem2;
 	t_env *env;
-	char *cmd1;
-	char *cmd2;
-	char **args;
-	char **args1;
-	
-	cmd1 = ft_strdup("ls");
-	cmd2 = ft_strdup("echo");
-	
-	args = malloc(4 * sizeof(char *));
-	args[0] = ft_strdup("ls");
-	args[1] = ft_strdup("-l");
-	args[2] = ft_strdup("-a");
-	args[3] = NULL;
 
-	args1 = malloc(4 * sizeof(char *));
-	args1[0] = ft_strdup("echo");
-	args1[1] = ft_strdup("-n");
-	args1[2] = ft_strdup("asdsa ds df sa");
-	args1[3] = NULL;
+	elem = malloc(sizeof(t_element));
+	elem1 = malloc(sizeof(t_element));
+	elem2 = malloc(sizeof(t_element));
 
-	elem = __test_cmd(cmd1, args, -1, 1);
-	elem1= __test_cmd(cmd2, args1, -1, 1);
-	elem2 = __test_cmd(NULL, NULL, AND_OR, 2);
-	cmd = __final_struct_maker(elem, elem1, elem2);
-	cmd->element->command->cmd = cmd1;
-	cmd->element->command->in = 4;
-	cmd->element->command->out = 5;
+	elem->command = malloc(sizeof(t_command));
+	elem->type = 0;
+	elem->command->cmd = ft_strdup("ls");
+	elem->command->args = malloc(3 * sizeof(char *));
+	elem->command->args[0] = ft_strdup("ls");
+	elem->command->args[1] = ft_strdup("-la");
+	elem->command->args[2] = NULL;
+	elem->command->err = 2;
+	elem->command->out = 1;
+	elem->command->in = 0;
+	elem->command->err = 2;
+	elem->command->out = 1;
+
+
+	elem1->command = malloc(sizeof(t_command));
+	elem->type = 1;
+	elem1->command->cmd = ft_strdup("&&");
+	elem1->command->args = NULL;
+	elem1->command->in = 0;
+	elem1->command->err = 2;
+	elem1->command->out = 1;
+
+	elem2->command = malloc(sizeof(t_command));
+	elem->type = 0;
+	elem2->command->cmd = ft_strdup("echo");
+	elem2->command->args = malloc(3 * sizeof(char *));
+	elem2->command->args[0] = ft_strdup("echo");
+	elem2->command->args[1] = ft_strdup("pxik ev dzknik");
+	elem2->command->args[2] = NULL;
+	elem2->command->err = 2;
+	elem2->command->out = 1;
+	elem2->command->in = 0;
+	elem2->command->err = 2;
+	elem2->command->out = 1;
+
+	cmd = malloc(sizeof(t_cmd));
+	cmd->element = elem;
+	cmd->next = malloc(sizeof(t_cmd));
+	cmd->next->element = elem1;
+	cmd->next->next = malloc(sizeof(t_cmd));
+	cmd->next->next->element = elem2;
+	printf("%s\n", cmd->next->next->element->command->cmd);
+	// char *cmd1;
+	// char *cmd_delimiter;
+	// char *cmd2;
+	// char **args;
+	// char **args_and;
+	// char **args1;
 	
-	cmd->next->element->command->cmd = cmd2;
-	cmd->next = NULL;
+	// cmd1 = ft_strdup("ls");
+	// cmd_delimiter = ft_strdup("&&");
+	// cmd2 = ft_strdup("echo");
+	
+	// args = malloc(4 * sizeof(char *));
+	// args[0] = ft_strdup("ls");
+	// args[1] = ft_strdup("-l");
+	// args[2] = ft_strdup("-a");
+	// args[3] = NULL;
+
+	// args_and = malloc(4 * sizeof(char *));
+	// args_and[0] = ft_strdup("&&");
+	// args_and[1] = NULL;
+
+	// args1 = malloc(4 * sizeof(char *));
+	// args1[0] = ft_strdup("echo");
+	// args1[1] = ft_strdup("-n");
+	// args1[2] = ft_strdup("asdsa ds df sa");
+	// args1[3] = NULL;
+
+	// elem = __test_cmd(cmd1, args, -1, 1);
+	// elem_and = __test_cmd(cmd1, args, -1, 1);
+	// elem1= __test_cmd(cmd2, args1, -1, 1);
+	// elem2 = __test_cmd(NULL, NULL, AND_OR, 2);
+	// cmd = __final_struct_maker(elem, elem1, elem2);
+	// cmd->element->command->cmd = cmd1;
+	// cmd->element->command->in = 4; //just  for tests
+	// cmd->element->command->out = 5; // just test 2
+	
+	// cmd->next->element->command->cmd = cmd2;
+	// cmd->next = NULL;
 	// cmd = cmd->next;
 	// printf("%s\n", cmd->element->command->cmd);
 	// printf("%s\n", cmd->next->element->command->cmd);
