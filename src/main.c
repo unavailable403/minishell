@@ -6,7 +6,7 @@
 /*   By: smikayel <smikayel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:30:31 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/11/22 00:54:22 by smikayel         ###   ########.fr       */
+/*   Updated: 2022/11/22 22:04:39 by smikayel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,8 @@ void lexer(t_cmd **cmd_pointer, t_env *env)
 	}
 }
 
+
+
 void print_error_out_and_exit(char *msg, int out_fd)
 {
 	write(out_fd, msg, strlen(msg));
@@ -193,14 +195,33 @@ void	run_command_one(t_cmd **command, char **env)
 		exit(cmd->element->command->out);
 }
 
+void cmd_exec_error(t_cmd	*cmd_p)
+{
+	if (cmd_p->element->type == 2)
+		return ;
+	if (cmd_p->status == 126)
+		write(cmd_p->element->command->out, "Permissions denied!", strlen("Permissions denied!"));
+	else if (cmd_p->status == 127)
+		write(cmd_p->element->command->out, "Command not found!", strlen("Command not found!"));
+}
+
 int	execute_2(t_env **env, t_cmd **cmd)
 {
-	// t_command	*commands;
+	t_cmd	*cmd_p;
 	pid_t	process_id;
 
-	process_id = fork_checking(cmd); // will fork proccess and return proccess id
-	if (process_id == 0)
-		run_command_one(cmd,  get_arr_env(*env));
+	cmd_p = *cmd;
+	if (cmd_p->element->type != 2 && (cmd_p->status != 127 || cmd_p->status != 126))
+	{
+		process_id = fork_checking(cmd); // will fork proccess and return proccess id
+		if (process_id == 0)
+			run_command_one(cmd,  get_arr_env(*env));	
+	}
+	else
+	{
+		printf("asdasd\n");
+		cmd_exec_error(cmd_p);
+	}
 	
 	
 	
@@ -254,7 +275,7 @@ int	main(int argc, char **argv, char **envp)
 	char **args;
 	char **args1;
 	
-	cmd1 = ft_strdup("ls");
+	cmd1 = ft_strdup("|");
 	cmd2 = ft_strdup("echo");
 	
 	args = malloc(4 * sizeof(char *));
@@ -292,7 +313,6 @@ int	main(int argc, char **argv, char **envp)
 	 in case when the command is builtin it will just check and set the cmd status 0, overview it will set to 127 (IF COMMAND NOT FOUND AND 126 if there is not enough
 	 permissions)
 	*/
-
 	executer(&cmd, env); /*this is executer function here will be cheeked that if next cmd element type is pipe/and/or will called function what is needed*/
 	
 	
