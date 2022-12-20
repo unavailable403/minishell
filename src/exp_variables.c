@@ -6,7 +6,7 @@
 /*   By: ergrigor < ergrigor@student.42yerevan.am > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 19:40:45 by ergrigor          #+#    #+#             */
-/*   Updated: 2022/11/14 15:17:09 by ergrigor         ###   ########.fr       */
+/*   Updated: 2022/12/20 21:53:25 by ergrigor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	change_var(t_env *env, char **args, int i, int *j)
 	int		x;
 
 	x = *j;
+		printf("args[%d]->[%s]", i, args[i]);
 	while (args[i][x] && args[i][x] != ' '
 		&& args[i][x] != '"' && args[i][x] != '\'')
 		x++;
@@ -223,7 +224,6 @@ char	*get_env_value(t_env *env, char *str, int *i)
 		j++;
 	int a = *i + 1;
 	tmp = ft_substr(str, a, (j - (*i) - 1));
-	
 	//printf("\n\n%s\n\n", tmp);
 	*i = j;
 	while (ptr)
@@ -242,64 +242,41 @@ char	*get_env_value(t_env *env, char *str, int *i)
 	return (free(tmp), ft_strdup(ptr->val_value));
 }
 
+void	get_name(char **name)
+{
+	char	*tmp;
+	int		i;
+
+	i = 0;
+	if (*name && (*name)[0])
+	{
+		while ((*name)[i])
+		{
+			if ((*name)[i] == ' ' || (*name)[i] == '<' || (*name)[i] == '>' || (*name)[i] == '|')
+				break ;
+			else
+				i++;
+		}
+		tmp = ft_substr(*name, 0, i);
+		free(*name);
+		*name = tmp;
+	}
+}
+
 char	*change_var_cmd(char *str, int *i, t_env *env)
 {
-	// char	*tmp;
-	// char	*tmp2;
-	// char	*tmp3;
-	// int		j;
-	
-	// tmp3 = 0x0;
-	// if (*i != 0)
-	// {	
-	// 	tmp3 = ft_substr(str, 0, (*i));
-	// 	printf("%s\n", tmp3);
-	// }
-	// while (str && str[*i])
-	// {
-	// 	if (str[(*i)] == '$')
-	// 		tmp = get_env_value(env, str, i);
-	// 	if (str [*i] == '\0')
-	// 	{
-	// 		if(tmp3)
-	// 		{
-	// 			tmp3 = ft_free_strjoin(tmp3, tmp);
-	// 			return ( tmp3);
-	// 		}
-	// 		return (tmp);
-	// 	}
-	// 	else
-	// 	{
-	// 		if(tmp3)
-	// 			tmp3 = ft_free_strjoin(tmp3, tmp);
-	// 		j = *i;
-	// 		while (str[j])
-	// 			j++;
-	// 		tmp2 = ft_substr(str, (*i), (j) - (*i));
-	// 		*i = j;
-	// 		if(tmp3)
-	// 		{
-	// 			tmp3 = ft_free_strjoin(tmp3, tmp2);
-	// 			return (free(tmp2), free(tmp), tmp3);
-	// 		}
-	// 		tmp = ft_free_strjoin(tmp, tmp2);
-	// 		return (free(tmp2), tmp);
-	// 	}
-	// 	(*i)++;
-	// }
-	// return (NULL);
 	char	*start;
 	char	*name;
 	char	*end;
 	char	*tmp;
 	int		j;
-	
+
 	start = 0x0;
 	end = 0x0;
 	if (*i != 0)
 		start = ft_substr(str, 0, *i);
 	name = get_env_value(env, str, i);
-	printf("%s\n", name);
+	get_name(&name);
 	if (str[*i] == '\0')
 	{
 		start = ft_free_strjoin(start, name);
@@ -361,16 +338,17 @@ void	get_variables(t_env *env, t_element **elem)
 			i++;
 		else
 		{
-			if (is_var_cmd(elem[i]->command->cmd) == 0)
-			{
-				get_var_cmd(env, elem[i]->command);
-				//remove_option(elem[i]->command);
-			}
 			if (is_var(elem[i]->command->args) == 0)
 			{
 				// printf("Check\n");
 				get_var(env, elem[i]->command);
 				join_option(elem[i]->command);
+			}
+			if (is_var_cmd(elem[i ]->command->cmd) == 0)
+			{
+				get_var_cmd(env, elem[i]->command);
+				elem[i]->command->args[0] = ft_strdup(elem[i]->command->cmd);
+				//remove_option(elem[i]->command);
 			}
 			i++;
 		}
